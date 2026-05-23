@@ -80,6 +80,8 @@ public class SodiumGameOptions {
         SodiumGameOptions config;
         boolean resaveConfig = true;
 
+        AngelicaMod.LOGGER.error("SodiumGameOptions.load is happening!", new Exception());
+
         if (Files.exists(path)) {
             try (FileReader reader = new FileReader(path.toFile())) {
                 config = GSON.fromJson(reader, SodiumGameOptions.class);
@@ -100,17 +102,22 @@ public class SodiumGameOptions {
 
         config.configPath = path;
 
+        AngelicaMod.LOGGER.warn("Are GLStateManager.capabilities == null? {}", GLStateManager.capabilities == null);
+
         if (config.advanced.streamingUploadStrategy == null) {
+            AngelicaMod.LOGGER.warn("SUS == null -> clamping");
             config.advanced.streamingUploadStrategy = StreamingUploader.UploadStrategy.MAP_BUFFER_RANGE;
         }
 
         // Clamp render-ahead to 0 if GL 3.2 fences aren't available
         if (GLStateManager.capabilities == null || !GLStateManager.capabilities.OpenGL32) {
+            AngelicaMod.LOGGER.warn("Clamping cpuRenderAheadLimit to 0 ({}, {})", GLStateManager.capabilities == null, (GLStateManager.capabilities != null) && !GLStateManager.capabilities.OpenGL32);
             config.performance.cpuRenderAheadLimit = 0;
         }
 
         // Downgrade INDIRECT if hardware doesn't support it
         if (config.advanced.multiDrawMode == MultiDrawMode.INDIRECT && (GLStateManager.capabilities == null || (!GLStateManager.capabilities.OpenGL43 && !GLStateManager.capabilities.GL_ARB_multi_draw_indirect))) {
+            AngelicaMod.LOGGER.warn("Downgrade INDIRECT");
             config.advanced.multiDrawMode = MultiDrawMode.DIRECT;
         }
 
