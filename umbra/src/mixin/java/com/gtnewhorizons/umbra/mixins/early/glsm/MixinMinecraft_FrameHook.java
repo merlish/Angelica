@@ -29,10 +29,12 @@ public class MixinMinecraft_FrameHook {
         FrameHooks.frameBegin();
     }
 
+    /*
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;updateCameraAndRender(F)V"))
     private void umbra$freshenMouseInput(CallbackInfo ci) {
         GLStateManager.pumpDisplayMessages();
     }
+    */
 
     @Inject(
         method = "runGameLoop",

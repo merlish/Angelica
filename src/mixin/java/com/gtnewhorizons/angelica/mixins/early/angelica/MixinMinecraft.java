@@ -60,10 +60,12 @@ public abstract class MixinMinecraft {
         }
     };
 
+    /*
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;updateCameraAndRender(F)V"))
     private void angelica$freshenMouseInput(CallbackInfo ci) {
         GLStateManager.pumpDisplayMessages();
     }
+    */
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;func_147120_f()V"))
     private void angelica$beforePresent(CallbackInfo ci) {
